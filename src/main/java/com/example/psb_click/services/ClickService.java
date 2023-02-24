@@ -102,7 +102,10 @@ public class ClickService {
         return ResponseEntity.ok(new DataDTO<>(transferResDTO));
     }
 
-
+    public ResponseEntity<DataDTO<PaymentResDTO>> transferToToken(TransferToTokenReqDTO transferCardReqDTO){
+        PaymentResDTO transferResDTO = sendRequest(transferCardReqDTO, new ParameterizedTypeReference<>() {}, "transfer.card", 134);
+        return ResponseEntity.ok(new DataDTO<>(transferResDTO));
+    }
     private  <T,R> R sendRequest(
             T request,
             ParameterizedTypeReference<BaseRes<R>> responseType,

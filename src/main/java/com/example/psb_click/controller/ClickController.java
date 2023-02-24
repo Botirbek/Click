@@ -91,5 +91,9 @@ public class ClickController {
         return clickService.transferCard(transferCardReqDTO);
     }
 
+    @PostMapping("/transfer/tokenToToken")
+    public ResponseEntity<DataDTO<PaymentResDTO>> transferTokenToToken(@RequestBody TransferToTokenReqDTO transferToTokenReqDTO){
+        return clickService.transferToToken(transferToTokenReqDTO);
+    }
 
 }
