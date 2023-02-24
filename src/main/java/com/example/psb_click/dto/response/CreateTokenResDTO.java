@@ -6,7 +6,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class SupplierResDTO {
-//    private Category category
+public class CreateTokenResDTO {
+    private String token_id;
+    private String phone_number;
 }

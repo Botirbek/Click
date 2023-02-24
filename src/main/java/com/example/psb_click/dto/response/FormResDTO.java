@@ -6,16 +6,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class BaseRes<T> {
-    private String jsonrpc;
-    private Integer id;
-    private T result;
-    private ErrorRes error;
+@Builder
+public class FormResDTO {
+    private Integer step;
+    private String title;
+    private Boolean get_info;
+    private Object form;
 }
-

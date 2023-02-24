@@ -34,9 +34,9 @@ public class DataDTO<T> implements Serializable {
         this.data = (T) new Object();
     }
 
-    public DataDTO(T data, Long totalCount) {
-        this.data = data;
-        this.success = true;
-//        this.totalCount = totalCount;
-    }
+//    public DataDTO(T data, Long totalCount) {
+//        this.data = data;
+//        this.success = true;
+////        this.totalCount = totalCount;
+//    }
 }

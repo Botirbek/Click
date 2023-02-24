@@ -19,11 +19,11 @@ public class Base {
 
     public String getServiceKey() throws NoSuchAlgorithmException {
         long unixTimestamp = (new Date()).getTime() / 1000;
-        String serviceKey = partner_id+";"+Base.Hash(unixTimestamp+partner_key)+";"+unixTimestamp;
+        String serviceKey = partner_id+";"+hash(unixTimestamp+partner_key)+";"+unixTimestamp;
         return serviceKey;
     }
 
-    static String Hash(String str) throws NoSuchAlgorithmException {
+    private String hash(String str) throws NoSuchAlgorithmException {
         MessageDigest messageDigest = MessageDigest.getInstance("SHA-1");
         byte[] digest = messageDigest.digest(str.getBytes(StandardCharsets.UTF_8));
         BigInteger no = new BigInteger(1, digest);
@@ -35,4 +35,12 @@ public class Base {
         return hashtext;
     }
 
+    public  String decryptCardNumber(String card_number)
+    {
+//        $pub_key = file_get_contents($this->click->certificate_path);
+//        openssl_public_encrypt($card_number, $decrypted_data, $pub_key);
+//        return base64_encode($decrypted_data);
+
+        return "";
+    }
 }

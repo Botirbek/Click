@@ -21,6 +21,10 @@ variable:
   partnerId: 8718971
   partnerKey: 2a5f578b756cfe5acb87f92d3e8ac5c6effc9469a45d14699cdef29c44df1a9d
   baseUrl: https://api.click.uz/partner
+  requestTimeOut: 5_000
+  jsonrpc: 2.0
+  proxyHost: 172.25.42.77
+  proxyPort: 808
 
 
 

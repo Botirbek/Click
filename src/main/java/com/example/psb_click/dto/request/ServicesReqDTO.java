@@ -9,9 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PaymentReqDTO {
-    private String card_token;
-    private Integer service_id;
-    private PaymentParamsReqDTO parameters;
-    private String external_id;
+public class ServicesReqDTO {
+    private Integer category_id;
+    private Integer page_number;
+    private Integer api_version;
 }

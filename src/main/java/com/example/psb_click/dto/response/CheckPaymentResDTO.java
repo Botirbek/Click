@@ -5,15 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BaseResList<T> {
-    private String jsonrpc;
-    private Integer id;
-    private List<T> result;
-    private ErrorRes error;
+public class CheckPaymentResDTO {
+    private String payment_id;
+    private Integer payment_status;
 }
