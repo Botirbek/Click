@@ -12,6 +12,7 @@ import reactor.netty.http.client.HttpClient;
 import reactor.netty.transport.ProxyProvider;
 
 
+
 @Configuration
 public class Beans {
 
@@ -44,6 +45,7 @@ public class Beans {
     public ObjectMapper objectMapper(){
         return new ObjectMapper().disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
     }
+
 
 
 }

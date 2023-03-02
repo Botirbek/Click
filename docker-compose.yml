@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+
+  postgres:
+    container_name: psb_click
+    image: postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: psb_click
+#    volumes:
+#      - postgres:/data/postgres
+    ports:
+      - "5434:5432"
+
+  pgAdmin:
+    container_name: cpgAdmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@mail.ru
+      PGADMIN_DEFAULT_PASSWORD: password
+    #    volumes:
+    #      - pgadmin:/var/lib/pgadmin
+    ports:
+      - "5055:80"
+    restart: unless-stopped
+
+##  networks and volumes
+#  networks:
+#    postgres:
+#      driver: bridge
+
+#  volumes:
+#    postgres:
+#    pgadmin:

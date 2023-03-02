@@ -3,9 +3,16 @@ package com.example.psb_click.services;
 import com.example.psb_click.dto.basic.DataDTO;
 import com.example.psb_click.dto.request.*;
 import com.example.psb_click.dto.response.*;
+import com.example.psb_click.entity.Logs;
+import com.example.psb_click.util.enums.LogType;
 import com.example.psb_click.exceptions.CustomException;
+import com.example.psb_click.repository.LogsRepository;
 import com.example.psb_click.util.Base;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
@@ -13,8 +20,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.security.NoSuchAlgorithmException;
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +36,11 @@ public class ClickService {
     private Long REQUEST_TIME_OUT;
     private final Base base;
     private final WebClient webClient;
+
+    private final LogsRepository logsRepository;
+    private final ObjectMapper objectMapper;
+
+    Logger logger = LoggerFactory.getLogger("LoggingServiceImpl");
 
     public ResponseEntity<DataDTO<CreateTokenResDTO>> createToken(CreateTokenReqDTO createTokenReqDTO) {
         CreateTokenResDTO createTokenResDTO = sendRequest(createTokenReqDTO, new ParameterizedTypeReference<>() {}, "token.create", 123);
@@ -93,19 +108,25 @@ public class ClickService {
     }
 
     public ResponseEntity<DataDTO<PaymentResDTO>> transferToken(TransferTokenReqDTO transferTokenReqDTO){
-        PaymentResDTO transferTokenResDTO = sendRequest(transferTokenReqDTO, new ParameterizedTypeReference<BaseRes<PaymentResDTO>>() {}, "transfer.token", 133);
-        return ResponseEntity.ok(new DataDTO<>(transferTokenResDTO));
+        PaymentResDTO response = sendRequest(transferTokenReqDTO, new ParameterizedTypeReference<BaseRes<PaymentResDTO>>() {}, "transfer.token", 133);
+        return ResponseEntity.ok(new DataDTO<>(response));
     }
 
     public ResponseEntity<DataDTO<PaymentResDTO>> transferCard(TransferCardReqDTO transferCardReqDTO){
-        PaymentResDTO transferResDTO = sendRequest(transferCardReqDTO, new ParameterizedTypeReference<>() {}, "transfer.card", 134);
-        return ResponseEntity.ok(new DataDTO<>(transferResDTO));
+        PaymentResDTO response = sendRequest(transferCardReqDTO, new ParameterizedTypeReference<>() {}, "transfer.card", 134);
+        return ResponseEntity.ok(new DataDTO<>(response));
     }
 
     public ResponseEntity<DataDTO<PaymentResDTO>> transferToToken(TransferToTokenReqDTO transferCardReqDTO){
-        PaymentResDTO transferResDTO = sendRequest(transferCardReqDTO, new ParameterizedTypeReference<>() {}, "transfer.card", 134);
+        PaymentResDTO response = sendRequest(transferCardReqDTO, new ParameterizedTypeReference<>() {}, "transfer.token2token", 135);
+        return ResponseEntity.ok(new DataDTO<>(response));
+    }
+
+    public ResponseEntity<DataDTO<PaymentResDTO>> transferData(TransferDataReqDTO transferDataReqDTO){
+        PaymentResDTO transferResDTO = sendRequest(transferDataReqDTO, new ParameterizedTypeReference<>() {}, "transfer.data", 141);
         return ResponseEntity.ok(new DataDTO<>(transferResDTO));
     }
+
     private  <T,R> R sendRequest(
             T request,
             ParameterizedTypeReference<BaseRes<R>> responseType,
@@ -113,6 +134,8 @@ public class ClickService {
             Integer id
     ){
         BaseRes<R> baseRes;
+        UUID logId = UUID.randomUUID();
+
         var baseReq = BaseReq.builder()
                 .id(id)
                 .jsonrpc(JSONRPC)
@@ -121,6 +144,16 @@ public class ClickService {
                 .build();
 
         try {
+            logsRepository.save(
+                    Logs.builder()
+                            .body(objectMapper.writeValueAsString(baseReq))
+                            .type(LogType.ClickRequest)
+                            .logId(logId)
+                            .time(LocalDateTime.now())
+                            .method(method)
+                            .build());
+            logger.info("log ClickRequest: {}", baseReq);
+
             baseRes = webClient.post()
                     .contentType(MediaType.APPLICATION_JSON)
                     .header("Service", base.getServiceKey())
@@ -130,7 +163,16 @@ public class ClickService {
                     .timeout(Duration.ofMillis(REQUEST_TIME_OUT))
                     .block();
 
-        } catch (Exception e) {
+            logsRepository.save(
+                    Logs.builder()
+                            .body(objectMapper.writeValueAsString(baseRes))
+                            .type(LogType.ClickResponse)
+                            .logId(logId)
+                            .time(LocalDateTime.now())
+                            .method(method)
+                            .build());
+            logger.info("log ClickResponse: {}", baseRes);
+        } catch (JsonProcessingException | NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
 
@@ -153,7 +195,20 @@ public class ClickService {
                 .method(method)
                 .params(request)
                 .build();
+
+        UUID logId = UUID.randomUUID();
+
         try {
+            logsRepository.save(
+                    Logs.builder()
+                            .body(objectMapper.writeValueAsString(baseReq))
+                            .type(LogType.ClickRequest)
+                            .logId(logId)
+                            .time(LocalDateTime.now())
+                            .method(method)
+                            .build());
+            logger.info("log ClickRequest: {}", baseReq);
+
             baseRes = webClient.post()
                     .contentType(MediaType.APPLICATION_JSON)
                     .header("Service", base.getServiceKey())
@@ -163,7 +218,16 @@ public class ClickService {
                     .timeout(Duration.ofMillis(REQUEST_TIME_OUT))
                     .block();
 
-        } catch (Exception e) {
+            logsRepository.save(
+                    Logs.builder()
+                            .body(objectMapper.writeValueAsString(baseRes))
+                            .type(LogType.ClickResponse)
+                            .logId(logId)
+                            .time(LocalDateTime.now())
+                            .method(method)
+                            .build());
+            logger.info("log ClickResponse: {}", baseRes);
+        }catch (NoSuchAlgorithmException | JsonProcessingException e) {
             throw new RuntimeException(e);
         }
 

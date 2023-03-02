@@ -4,9 +4,13 @@ import com.example.psb_click.dto.basic.DataDTO;
 import com.example.psb_click.dto.request.*;
 import com.example.psb_click.dto.response.*;
 import com.example.psb_click.services.ClickService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 @RestController
@@ -17,7 +21,7 @@ public class ClickController {
     private final ClickService clickService;
 
     @PostMapping("/token/create")
-    public ResponseEntity<DataDTO<CreateTokenResDTO>> createToken(@RequestBody CreateTokenReqDTO createTokenReqDTO){
+    public ResponseEntity<DataDTO<CreateTokenResDTO>> createToken(@RequestBody CreateTokenReqDTO createTokenReqDTO, HttpServletRequest request){
         return clickService.createToken(createTokenReqDTO);
     }
 
@@ -52,7 +56,7 @@ public class ClickController {
     }
 
     @PostMapping("/form/get")
-    public ResponseEntity<DataDTO<FormResDTO>> getForm(@RequestBody FormReqDTO formReqDTO){
+    public ResponseEntity<DataDTO<FormResDTO>> getForm(@Validated @RequestBody FormReqDTO formReqDTO){
         return clickService.getForm(formReqDTO);
     }
 
@@ -96,4 +100,23 @@ public class ClickController {
         return clickService.transferToToken(transferToTokenReqDTO);
     }
 
+    @PostMapping("/transfer/data")
+    public ResponseEntity<DataDTO<PaymentResDTO>> transferData(@RequestBody TransferDataReqDTO transferDataReqDTO){
+        return clickService.transferData(transferDataReqDTO);
+    }
+
+//    @PostMapping("/getInfo")
+//    public ResponseEntity<DataDTO> getInfo(@RequestBody JoydaRequest joydaRequest){
+//        return clickService.getInfo(joydaRequest);
+//    }
+//
+//    @PostMapping("/check")
+//    public ResponseEntity<DataDTO> check(@RequestBody JoydaRequest joydaRequest){
+//        return clickService.check(joydaRequest);
+//    }
+//
+//    @PostMapping("/pay")
+//    public ResponseEntity<DataDTO> pay(@RequestBody JoydaRequest joydaRequest){
+//        return clickService.pay(joydaRequest);
+//    }
 }
