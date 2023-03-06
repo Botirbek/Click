@@ -4,17 +4,22 @@ import com.example.psb_click.dto.basic.DataDTO;
 import com.example.psb_click.dto.request.*;
 import com.example.psb_click.dto.response.*;
 import com.example.psb_click.services.ClickService;
-import jakarta.validation.Valid;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-
 
 @RestController
 @RequiredArgsConstructor
+@Tag(name = "Click service", description = "Service integrated with Click for JOYDA application")
 @RequestMapping("/v1/click")
 public class ClickController {
 
@@ -105,18 +110,18 @@ public class ClickController {
         return clickService.transferData(transferDataReqDTO);
     }
 
-//    @PostMapping("/getInfo")
-//    public ResponseEntity<DataDTO> getInfo(@RequestBody JoydaRequest joydaRequest){
-//        return clickService.getInfo(joydaRequest);
-//    }
-//
-//    @PostMapping("/check")
-//    public ResponseEntity<DataDTO> check(@RequestBody JoydaRequest joydaRequest){
-//        return clickService.check(joydaRequest);
-//    }
-//
-//    @PostMapping("/pay")
-//    public ResponseEntity<DataDTO> pay(@RequestBody JoydaRequest joydaRequest){
-//        return clickService.pay(joydaRequest);
-//    }
+    @PostMapping("/getInfo")
+    public ResponseEntity<DataDTO> getInfo(@RequestBody JoydaRequest joydaRequest){
+        return clickService.getInfo(joydaRequest);
+    }
+
+    @PostMapping("/check")
+    public ResponseEntity<DataDTO> check(@RequestBody JoydaRequest joydaRequest){
+        return clickService.check(joydaRequest);
+    }
+
+    @PostMapping("/pay")
+    public ResponseEntity<DataDTO> pay(@RequestBody JoydaRequest joydaRequest){
+        return clickService.pay(joydaRequest);
+    }
 }

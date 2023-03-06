@@ -10,6 +10,7 @@ import com.example.psb_click.repository.LogsRepository;
 import com.example.psb_click.util.Base;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -177,7 +178,7 @@ public class ClickService {
         }
 
         if ((baseRes != null ? baseRes.getError() : null) != null)
-            throw new CustomException(baseRes.getError().getMessage());
+            throw new CustomException("Click: "+baseRes.getError().getMessage());
 
         return baseRes.getResult();
     }
@@ -237,6 +238,18 @@ public class ClickService {
         return baseRes.getResult();
     }
 
+    public ResponseEntity<DataDTO> getInfo(JoydaRequest joydaRequest) {
+         System.out.println(joydaRequest);
+         return null;
+    }
+
+    public ResponseEntity<DataDTO> check(JoydaRequest joydaRequest) {
+        return null;
+    }
+
+    public ResponseEntity<DataDTO> pay(JoydaRequest joydaRequest) {
+        return null;
+    }
 }
 
 
