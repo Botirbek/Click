@@ -1,5 +1,6 @@
 package com.example.psb_click.dto.request;
 
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,4 +17,5 @@ public class TransferTokenReqDTO {
     private String card_number_receiver;
     private BigDecimal amount;
     private String external_id;
+
 }

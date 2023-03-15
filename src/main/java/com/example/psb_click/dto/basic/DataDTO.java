@@ -24,6 +24,8 @@ public class DataDTO<T> implements Serializable {
 
     protected Boolean isList;
 
+    protected String trace_id;
+
 //    private Long totalCount;
 
     public DataDTO(T data) {

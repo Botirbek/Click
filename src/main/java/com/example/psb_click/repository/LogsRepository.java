@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface LogsRepository extends JpaRepository<Logs,Integer> {
 
-
+    //todo paging and sorting link => https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repositories.paging-and-sorting
 }

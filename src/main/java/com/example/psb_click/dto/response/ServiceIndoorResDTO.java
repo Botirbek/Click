@@ -16,8 +16,8 @@ public class ServiceIndoorResDTO {
     private Integer status;
     private Integer priority;
     private String  image;
-    private Integer min_limit;
-    private Integer max_limit;
+    private Long min_limit;
+    private Long max_limit;
     private String[] card_types;
 //    private Boolean maintenance;
 //    private Integer version;

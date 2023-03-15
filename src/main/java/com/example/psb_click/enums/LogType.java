@@ -1,4 +1,4 @@
-package com.example.psb_click.util.enums;
+package com.example.psb_click.enums;
 
 public enum LogType {
     JoydaRequest,

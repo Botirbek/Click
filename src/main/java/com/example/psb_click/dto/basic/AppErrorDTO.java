@@ -9,13 +9,15 @@ import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Data
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AppErrorDTO {
-    private Timestamp timestamp;
+    private String time;
     private Integer status;
     private String error;
     private String message;
@@ -23,7 +25,7 @@ public class AppErrorDTO {
 
     @Builder
     public AppErrorDTO(HttpStatus status, String message, WebRequest request) {
-        this.timestamp = Timestamp.valueOf(LocalDateTime.now());
+        this.time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy hh:mm:ss"));
         this.status = status.value();
         this.error = status.getReasonPhrase();
         this.message = message;
@@ -32,7 +34,7 @@ public class AppErrorDTO {
 
     @Builder(builderMethodName = "secondBuilder")
     public AppErrorDTO(HttpStatus status, String message, String path) {
-        this.timestamp = Timestamp.valueOf(LocalDateTime.now());
+        this.time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy hh:mm:ss"));
         this.status = status.value();
         this.error = status.getReasonPhrase();
         this.message = message;

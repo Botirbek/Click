@@ -14,9 +14,14 @@ import lombok.NoArgsConstructor;
 @Builder
 public class JoydaRequest<T> {
 
-    @NotNull(message = "traceId could not be null")
-    private Integer traceId;
-    private String method;
+    @NotNull(message = "id for request could not be null")
+    private Integer id;
+
+    @NotNull(message = "trace_id could not be null")
+    private String trace_id;
+
+    private Integer service_id;
+
     private T params;
 
 }

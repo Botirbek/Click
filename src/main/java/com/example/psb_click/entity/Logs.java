@@ -1,6 +1,6 @@
 package com.example.psb_click.entity;
 
-import com.example.psb_click.util.enums.LogType;
+import com.example.psb_click.enums.LogType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -17,10 +17,10 @@ import java.util.UUID;
 public class Logs {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-    private Integer traceId;
+    private String traceId;
 
     private UUID logId;
 
